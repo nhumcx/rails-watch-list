@@ -1,14 +1,21 @@
-<h1>Lists#show</h1>
-<p>Find me in app/views/lists/show.html.erb</p>
-<h1><%= @list.name %></h1>
+<h1>Movie list <%= @list.name %> </h1>
 
 <ul>
   <% @list.movies.each do |movie| %>
     <li>
-      <%= movie.title %>, <%= movie.overview %>
+      <%= movie.title %>
+      <br>
+      <%= movie.overview %>
     </li>
+
+ <% bookmark = Bookmark.find_by(list: @list, movie: movie) %>
+        <%= bookmark.comment %>
+        <%= link_to "Delete", bookmark_path(bookmark), data: {turbo_method: :delete, turbo_confirm: "Are you sure?"} %>
   <% end %>
 </ul>
 
+<p><%= link_to "Add bookmark", new_list_bookmark_path(@list) %></p>
+
+<p><%= link_to "Delete list", list_path, data: {turbo_method: :delete, turbo_confirm: "Are you sure?"} %></p>
 
 <p><%= link_to "Back to the list", lists_path %></p>
